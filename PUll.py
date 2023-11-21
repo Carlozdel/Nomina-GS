@@ -54,3 +54,6 @@ cursorDB.execute("""ALTER TABLE ALL_EMPLOYEES ADD "Approved" Text""")
 
 connection.commit()
 connection.close()
+
+
+#comment_to_test
