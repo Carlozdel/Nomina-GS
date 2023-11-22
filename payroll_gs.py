@@ -10,9 +10,13 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
+import getpass
 # import MySQLdb as mdbk
 
 # import pandas as pd
+
+user_name = getpass.getuser()
+# print(path)
 
 connection =  sqlite3.connect('GS_DataBase')
 cursorDB = connection.cursor()
@@ -87,7 +91,7 @@ ent1.grid(column=1, row=0, padx=5, pady=3)
 
 lbl2 = Label(frame1, text="Cost Center",font=("", 13))
 lbl2.grid(column=0, row=1, padx=5, pady=3)
-ent2 = Entry(frame1,font=("", 13))
+ent2 = ttk.Combobox(frame1, value=('8274'	,'8113'	,'8317'	,'8236'	,'9052'	,'8272'	,'8099'	,'9992'	,'8026'	,'8270'	,'8264'),font=("", 11))
 ent2.grid(column=1, row=1, padx=5, pady=3)
 
 lbl3 = Label(frame1, text="Full Name",font=("", 13))
@@ -97,17 +101,19 @@ ent3.grid(column=1, row=2, padx=5, pady=3)
 
 lbl4 = Label(frame1, text="Shift",font=("", 13))
 lbl4.grid(column=0, row=3, padx=5, pady=3)
-ent4 = Entry(frame1,font=("", 13))
+#ent4 = Entry(frame1,font=("", 13))
+ent4 = ttk.Combobox(frame1, value=('Full Time', 'Part Time'),font=("", 11))
+
 ent4.grid(column=1, row=3, padx=5, pady=3)
 
 lbl5 = Label(frame1, text="Hrs Por Semana",font=("", 13))
 lbl5.grid(column=0, row=4, padx=5, pady=3)
-ent5 = Entry(frame1,font=("", 13))
+ent5 = ttk.Combobox(frame1, value=('45', '36', '27', '18', '9'),font=("", 11))
 ent5.grid(column=1, row=4, padx=5, pady=3)
 
 lbl6 = Label(frame1, text="Comedor",font=("", 13))
 lbl6.grid(column=0, row=5, padx=5, pady=3)
-ent6 = Entry(frame1,font=("", 13))
+ent6 = ttk.Combobox(frame1, value=('0', '103.74'),font=("", 11))
 ent6.grid(column=1, row=5, padx=5, pady=3)
 
 # modify_var  = ent1 + "," + ent2 + "," + ent3 + "," + ent4 + "," + ent5 + "," + ent6
@@ -158,15 +164,25 @@ def query_modificar(id):
     mydata_2 = str(id)
     new_data = mydata_2
     splitted = new_data.split(",")
-    # print(splitted)
+    print(splitted)
     if splitted[0] == '3':
         msg_box = messagebox.askokcancel("Adding Info","You are attempting to add a new record to the DB")
         print(msg_box)
 
         if msg_box == True:
-            tk.messagebox.showinfo('Addition Completed', 'You virtually added a new record')
+            # for i in range(1, 6):
+                if splitted[1] == "" or  splitted[2] == ""  or  splitted[3] == "" or  splitted[4] == "" or  splitted[5] == "" or  splitted[6] == "":
+                    tk.messagebox.showinfo('Addition Cancelled','There are empty fields in your addition, employee has not been added to DB')
+                    # return
+                else:
+
+                    cursorDB.execute("INSERT INTO ALL_EMPLOYEES  VALUES (" + splitted[1] + " ," + splitted[2] + " ," + "'" + splitted[3] +  "'"  + " ," +  "'" + splitted[4] + "'" + " ," + splitted[5] + " ," + splitted[6] + ",'','','','')")
+                    connection.commit()
+                    tk.messagebox.showinfo('Addition Completed', 'You virtually added a new record')
+                    # connection.close()
+                    return
         else:   
-            tk.messagebox.showinfo('Return', 'You canceled the adding process')
+            tk.messagebox.showinfo('Return', 'You cancelled the adding process')
             return
     else:
         # print(splitted[1])
