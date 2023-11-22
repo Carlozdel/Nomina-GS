@@ -119,11 +119,11 @@ ent6.grid(column=1, row=5, padx=5, pady=3)
 # modify_var  = ent1 + "," + ent2 + "," + ent3 + "," + ent4 + "," + ent5 + "," + ent6
 
 agregar_btn = Button(frame1, width=10, text="Agregar",font=("", 13) ,
-    command=lambda: query_modificar("3," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
+    command=lambda: query_agregar("3," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
 agregar_btn.grid(column=4, row=1, padx=5, pady=3)
  
 actualizar_btn = Button(frame1, width=10, text="Actualizar",font=("", 13),
-    command=lambda: query_modificar("4," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
+    command=lambda: query_agregar("4," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
 actualizar_btn.grid(column=4, row=2, padx=5, pady=3)
   
 eliminar_btn = Button(frame1, width=10, text="Eliminar",font=("", 13))
@@ -161,11 +161,11 @@ def query_buscar(id):
         for row in Query_result:
             trv.insert("",'end',text=row[0],values=list(row)) 
 
-def query_modificar(id):
+def query_agregar(id):
     mydata_2 = str(id)
     new_data = mydata_2
     splitted = new_data.split(",")
-    print(splitted)
+    # print(splitted)
     if splitted[0] == '3':
         msg_box = messagebox.askokcancel("Adding Info","You are attempting to add a new record to the DB")
         print(msg_box)
@@ -201,8 +201,24 @@ def query_modificar(id):
             tk.messagebox.showinfo('Return', 'You cancelled the adding process')
             return
     elif splitted[0] == '4':
-        # print(splitted[1])
-        print("did not work")
+
+
+        if splitted[1] == '':
+            msg_box = messagebox.askokcancel("Attempt to modify Info","You did not select an employee to modify.")
+        else:
+            query_mod = " SELECT * FROM ALL_EMPLOYEES WHERE IGNITION = " + splitted[1]
+            print(query_mod)
+            query_res_mod = cursorDB.execute(query_mod)
+            Query_result_mod = list(query_res_mod)
+            mydata_3 = str(query_res_mod)
+            new_data2 = mydata_3
+            splitted_2 = new_data2.split(" ")
+            print(splitted_2)
+            #print(query_res)
+            if Query_result_mod == '':
+                msg_box = messagebox.askokcancel("Attempt to modify Info","The employee you are trying to modify is not in the DB")
+            else:
+                msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for " + splitted_2[3] + " ?")
 
 
 
