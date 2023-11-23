@@ -122,7 +122,8 @@ agregar_btn = Button(frame1, width=10, text="Agregar",font=("", 13) ,
     command=lambda: query_modificar("3," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
 agregar_btn.grid(column=4, row=1, padx=5, pady=3)
  
-actualizar_btn = Button(frame1, width=10, text="Actualizar",font=("", 13))
+actualizar_btn = Button(frame1, width=10, text="Actualizar",font=("", 13),
+    command=lambda: query_modificar("4," + ent1.get() + "," + ent2.get() + "," + ent3.get() + "," + ent4.get() + "," + ent5.get() + "," + ent6.get()))
 actualizar_btn.grid(column=4, row=2, padx=5, pady=3)
   
 eliminar_btn = Button(frame1, width=10, text="Eliminar",font=("", 13))
@@ -179,12 +180,27 @@ def query_modificar(id):
                     cursorDB.execute("INSERT INTO ALL_EMPLOYEES  VALUES (" + splitted[1] + " ," + splitted[2] + " ," + "'" + splitted[3] +  "'"  + " ," +  "'" + splitted[4] + "'" + " ," + splitted[5] + " ," + splitted[6] + ",'','','','')")
                     connection.commit()
                     tk.messagebox.showinfo('Addition Completed', 'You virtually added a new record')
+                    for row in trv.get_children():
+                        trv.delete(row)
+                    ent.delete(0, 'end')
+                    ent1.delete(0, 'end')
+                    ent2.delete(0, 'end')
+                    ent3.delete(0, 'end')
+                    ent4.delete(0, 'end')
+                    ent5.delete(0, 'end')
+                    ent6.delete(0, 'end')
+                    query = " SELECT * FROM ALL_EMPLOYEES WHERE IGNITION = " + splitted[1]
+                    query_res = cursorDB.execute(query )
+                    Query_result = list(query_res)
+
+                    for row in Query_result:
+                        trv.insert("",'end',text=row[0],values=list(row)) 
                     # connection.close()
                     return
         else:   
             tk.messagebox.showinfo('Return', 'You cancelled the adding process')
             return
-    else:
+    elif splitted[0] == '4':
         # print(splitted[1])
         print("did not work")
 
