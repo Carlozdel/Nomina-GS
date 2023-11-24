@@ -225,8 +225,12 @@ def query_agregar(id):
                 else:
                     cursorDB.execute("DELETE FROM ALL_EMPLOYEES WHERE IGNITION = " + "'" + splitted[1] + "'")
                     connection.commit()
-                    query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + split_data[0] + " ," + split_data[1] + " ," + split_data[2] + " ," + split_data[3]   + " ,"  + split_data[4]  + " ," + split_data[5] + " ," +  split_data[6]  + " ," + split_data[7]  + " ," + split_data[8]  + " ," + split_data[9] + ")"    
-                    print(query_to_add)
+                    var_init = split_data[0][1:]
+                    var_final = split_data[9][:-1]
+                    print(var_init,var_final)
+                    query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + var_init + " ," + split_data[1] + " ," + split_data[2] + " ," + split_data[3]   + " ,"  + split_data[4]  + " ," + split_data[5] + " ," +  "'" + split_data[6] + "'"  + " ," + "'"  + split_data[7] + "'"  + " ," + "'"  +split_data[8] + "'"  + " ," + "'" + var_final  + "'" + ")"    
+                    # query_to_add = query_to_add[1:-1]
+                    # print(query_to_add)
                     cursorDB.execute(query_to_add)
                     
                     connection.commit()                    
