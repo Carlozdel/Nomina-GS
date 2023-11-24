@@ -219,6 +219,7 @@ def query_agregar(id):
                 tk.messagebox.showinfo('Modifying process Cancelled','In order to do a modify, you must fill out all the fields, Employee was not modified in DB')       
             else:
                 msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for" + split_data[2] + "?")
+
                 cursorDB.execute("DELETE FROM ALL_EMPLOYEES WHERE IGNITION = " + "'" + splitted[1] + "'")
                 connection.commit()
                 var_init = split_data[0][1:]
@@ -229,6 +230,7 @@ def query_agregar(id):
                 print(query_to_add)
                                     
                 cursorDB.execute(query_to_add)
+
                     
                 connection.commit()                    
 
