@@ -206,20 +206,30 @@ def query_agregar(id):
         if splitted[1] == '':
             msg_box = messagebox.askokcancel("Attempt to modify Info","You did not select an employee to modify.")
         else:
-            query_mod = " SELECT * FROM ALL_EMPLOYEES WHERE IGNITION = " + splitted[1]
-            print(query_mod)
+            query_mod = " SELECT * FROM ALL_EMPLOYEES WHERE IGNITION =" + "'" + splitted[1] + "'"
             query_res_mod = cursorDB.execute(query_mod)
-            Query_result_mod = list(query_res_mod)
-            mydata_3 = str(query_res_mod)
-            new_data2 = mydata_3
-            splitted_2 = new_data2.split(" ")
-            print(splitted_2)
-            #print(query_res)
-            if Query_result_mod == '':
-                msg_box = messagebox.askokcancel("Attempt to modify Info","The employee you are trying to modify is not in the DB")
-            else:
-                msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for " + splitted_2[3] + " ?")
+            rows = query_res_mod.fetchone()
+            print(rows)
+            query_str = str(rows)
+            split_data = query_str.split(",")
+            
+            if rows is None:
+                msg_box = messagebox.askokcancel("Attempt to modify Info","Employee was not found in DB") 
+            else:    
+                # print(query_mod)
+                msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for" + split_data[2] + "?")
+                # msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for?")
 
+                if splitted[1] == "" or  splitted[2] == ""  or  splitted[3] == "" or  splitted[4] == "" or  splitted[5] == "" or  splitted[6] == "":
+                    tk.messagebox.showinfo('Modifying process Cancelled','In order to do a modify, you must fill out all the fields, Employee was not modified in DB')       
+                else:
+                    cursorDB.execute("DELETE FROM ALL_EMPLOYEES WHERE IGNITION = " + "'" + splitted[1] + "'")
+                    connection.commit()
+                    query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + split_data[0] + " ," + split_data[1] + " ," + split_data[2] + " ," + split_data[3]   + " ,"  + split_data[4]  + " ," + split_data[5] + " ," +  split_data[6]  + " ," + split_data[7]  + " ," + split_data[8]  + " ," + split_data[9] + ")"    
+                    print(query_to_add)
+                    cursorDB.execute(query_to_add)
+                    
+                    connection.commit()                    
 
 
 query_buscar(id)
