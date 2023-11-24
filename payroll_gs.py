@@ -215,21 +215,22 @@ def query_agregar(id):
             
             if rows is None:
                 msg_box = messagebox.askokcancel("Attempt to modify Info","Employee was not found in DB") 
-            else:    
-                # print(query_mod)
+            elif splitted[1] == "" or  splitted[2] == ""  or  splitted[3] == "" or  splitted[4] == "" or  splitted[5] == "" or  splitted[6] == "":    
+                tk.messagebox.showinfo('Modifying process Cancelled','In order to do a modify, you must fill out all the fields, Employee was not modified in DB')       
+            else:
                 msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for" + split_data[2] + "?")
-                # msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for?")
-
-                if splitted[1] == "" or  splitted[2] == ""  or  splitted[3] == "" or  splitted[4] == "" or  splitted[5] == "" or  splitted[6] == "":
-                    tk.messagebox.showinfo('Modifying process Cancelled','In order to do a modify, you must fill out all the fields, Employee was not modified in DB')       
-                else:
-                    cursorDB.execute("DELETE FROM ALL_EMPLOYEES WHERE IGNITION = " + "'" + splitted[1] + "'")
-                    connection.commit()
-                    query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + split_data[0] + " ," + split_data[1] + " ," + split_data[2] + " ," + split_data[3]   + " ,"  + split_data[4]  + " ," + split_data[5] + " ," +  split_data[6]  + " ," + split_data[7]  + " ," + split_data[8]  + " ," + split_data[9] + ")"    
-                    print(query_to_add)
-                    cursorDB.execute(query_to_add)
+                cursorDB.execute("DELETE FROM ALL_EMPLOYEES WHERE IGNITION = " + "'" + splitted[1] + "'")
+                connection.commit()
+                var_init = split_data[0][1:]
+                var_final = split_data[9][:-1]
+                print(var_init,var_final)
+                query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + var_init + " ," + "'" + splitted[2] + "'" + " ," +  "'" + splitted[3] +  "'" + " ," +  "'" + splitted[4]  +  "'"  + " ,"  + splitted[5]  + " ," + splitted[6] + " ," +  "'None'"  + " ," + "'None'"  + " ," + "'None'"  + " ," + "'None'" + ")"    
+                print("--------------------------------------")
+                print(query_to_add)
+                                    
+                cursorDB.execute(query_to_add)
                     
-                    connection.commit()                    
+                connection.commit()                    
 
 
 query_buscar(id)
