@@ -11,6 +11,7 @@ from tkinter import ttk
 from tkinter import messagebox
 import sqlite3
 import getpass
+import itertools
 # import MySQLdb as mdbk
 
 # import pandas as pd
@@ -23,8 +24,11 @@ cursorDB = connection.cursor()
 
 root = Tk()
 root.title("Nomina General Services")
-root.geometry("1300x850")
+# root.geometry("1500x850")
 # root.attributes('-fullscreen',True)
+
+root.state("zoomed")
+
 root.config(bg='Gray')
 # root.grid_rowconfigure(0, weight=1)
 # root.grid_columnconfigure(0, weight=1)
@@ -40,32 +44,34 @@ frame2.pack(fill="both", expand="yes", padx=20, pady=10)
 frame3.pack(fill="both", expand="Yes", padx=20, pady=10)
 
 
-trv = ttk.Treeview(frame3, columns=(1,2,3,4,5,6,7,8,9,10), show="headings", height="18",selectmode='browse' )
+trv = ttk.Treeview(frame3, columns=(1,2,3,4,5,6,7,8,9,10,11), show="headings", height="18",selectmode='browse' )
 trv.pack()
 
 
 trv.column("#1",anchor=CENTER,widt=80)
 trv.column("#2",anchor=CENTER,widt=120)
 trv.column("#3",widt=200)
-trv.column("#4",anchor=CENTER,widt=120)
-trv.column("#5",anchor=CENTER,widt=140)
+trv.column("#4",anchor=CENTER,widt=80)
+trv.column("#5",anchor=CENTER,widt=70)
 trv.column("#6",anchor=CENTER,widt=80)
-trv.column("#7",anchor=CENTER,widt=120)
+trv.column("#7",anchor=CENTER,widt=200)
 trv.column("#8",anchor=CENTER,widt=120)
-trv.column("#9",anchor=CENTER,widt=120)
-trv.column("#10",anchor=CENTER,widt=120)
+trv.column("#9",anchor=CENTER,widt=60)
+trv.column("#10",anchor=CENTER,widt=90)
+trv.column("#11",anchor=CENTER,widt=200)
 
 
 trv.heading(1, text="IGNITION")
 trv.heading(2, text="COST CENTER")
 trv.heading(3, text="FULL NAME")
 trv.heading(4, text="SHIFT")
-trv.heading(5, text="HRS POR SEMANA")
+trv.heading(5, text="HRS WEEK")
 trv.heading(6, text="COMEDOR")
 trv.heading(7, text="MODIFIER")
 trv.heading(8, text="MODIFIED DT")
 trv.heading(9, text="FWEEK")
 trv.heading(10, text="APPROVED")
+trv.heading(11, text="SUPERVISOR")
 
 
 lbl = Label(frame2, width=10, text="Buscar", font=("", 13) )
@@ -96,7 +102,15 @@ ent2.grid(column=1, row=1, padx=5, pady=3)
 
 lbl3 = Label(frame1, text="Full Name",font=("", 13))
 lbl3.grid(column=0, row=2, padx=5, pady=3)
-ent3 = Entry(frame1,font=("", 13))
+
+query_NAME = cursorDB.execute("SELECT [Full Name] From ALL_EMPLOYEES")
+names = list(query_NAME)
+names_list = names
+
+# list(itertools.chain.from_iterable(names_list))
+
+ent3 = ttk.Combobox(frame1, value=(list(itertools.chain.from_iterable(names_list))),font=("", 11))
+
 ent3.grid(column=1, row=2, padx=5, pady=3)
 
 lbl4 = Label(frame1, text="Shift",font=("", 13))
@@ -177,7 +191,7 @@ def query_agregar(id):
                     # return
                 else:
 
-                    cursorDB.execute("INSERT INTO ALL_EMPLOYEES  VALUES (" + splitted[1] + " ," + splitted[2] + " ," + "'" + splitted[3] +  "'"  + " ," +  "'" + splitted[4] + "'" + " ," + splitted[5] + " ," + splitted[6] + ",'','','','')")
+                    cursorDB.execute("INSERT INTO ALL_EMPLOYEES  VALUES (" + splitted[1] + " ," + splitted[2] + " ," + "'" + splitted[3] +  "'"  + " ," +  "'" + splitted[4] + "'" + " ," + splitted[5] + " ," + splitted[6] + ",'','','','','')")
                     connection.commit()
                     tk.messagebox.showinfo('Addition Completed', 'You virtually added a new record')
                     for row in trv.get_children():
@@ -216,7 +230,7 @@ def query_agregar(id):
             if rows is None:
                 msg_box = messagebox.askokcancel("Attempt to modify Info","Employee was not found in DB") 
             elif splitted[1] == "" or  splitted[2] == ""  or  splitted[3] == "" or  splitted[4] == "" or  splitted[5] == "" or  splitted[6] == "":    
-                tk.messagebox.showinfo('Modifying process Cancelled','In order to do a modify, you must fill out all the fields, Employee was not modified in DB')       
+                tk.messagebox.showinfo('Modifying process Cancelled','To modify a record, you must fill out all the fields, Employee was not modified in DB')       
             else:
                 msg_box = messagebox.askokcancel("Attempt to modify Info","Are you sure you want to modify info for" + split_data[2] + "?")
 
@@ -225,7 +239,7 @@ def query_agregar(id):
                 var_init = split_data[0][1:]
                 var_final = split_data[9][:-1]
                 print(var_init,var_final)
-                query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + var_init + " ," + "'" + splitted[2] + "'" + " ," +  "'" + splitted[3] +  "'" + " ," +  "'" + splitted[4]  +  "'"  + " ,"  + splitted[5]  + " ," + splitted[6] + " ," +  "'None'"  + " ," + "'None'"  + " ," + "'None'"  + " ," + "'None'" + ")"    
+                query_to_add = "INSERT INTO ALL_EMPLOYEES  VALUES (" + var_init + " ," + "'" + splitted[2] + "'" + " ," +  "'" + splitted[3] +  "'" + " ," +  "'" + splitted[4]  +  "'"  + " ,"  + splitted[5]  + " ," + splitted[6] + " ," +  "'None'"  + " ," + "'None'"  + " ," + "'None'"  + " ," + "'None'"  + " ," + "'None'" + ")"    
                 print("--------------------------------------")
                 print(query_to_add)
                                     
