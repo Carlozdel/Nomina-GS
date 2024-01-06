@@ -4,7 +4,7 @@ import sqlite3
 connection =  sqlite3.connect('GS_DataBase')
 cursorDB = connection.cursor()
 
-
+cursorDB.execute("""UPDATE ALL_EMPLOYEES SET HOLIDAY = 'NO'""")
 # cursorDB.execute("""DROP TABLE ALL_EMPLOYEES; """)
 # cursorDB.execute("""ALTER TABLE ALL_EMPLOYEES ADD "HOLIDAY" Text""")
 
