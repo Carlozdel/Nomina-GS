@@ -18,7 +18,7 @@ import glob
 # import pyodbc
 import subprocess
 
-#AGREGAR LA OPCION DE CONSULTAR EL SHARED SERVER PARA PODER LEER LA JERARQUIA
+#AGREGAR LA OPCION DE CONSULTAR EL SHARED SERVER PARA PODER LEER LA JERARQUIA.
 
 # df_ftp = pd.read_csv('ftp://webfuser:azwfu$r@pr-wildcat-xl09.autozone.com/az/webfocus/ibi/apps/flatfiles/uito/wf8/ff_uito_test3.txt')
 
