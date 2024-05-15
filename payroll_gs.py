@@ -12,7 +12,6 @@ from tkinter import messagebox
 import sqlite3
 import getpass
 import itertools
-import pandas as pd
 import os
 import glob
 # import pyodbc
@@ -38,16 +37,16 @@ import subprocess
  
 # print(files) 
 
-list_of_files = glob.glob(r'c:/Users/cdelgad3.DZ/Downloads/Payroll/*') 
-latest_file = max(list_of_files, key=os.path.getctime)
+# list_of_files = glob.glob(r'c:/Users/cdelgad3.DZ/Downloads/Payroll/*') 
+# latest_file = max(list_of_files, key=os.path.getctime)
 
  
-print(latest_file)
+# print(latest_file)
 
  
-# df = pd.read_excel('c:/Users/cdelgad3.DZ/Downloads/General Services W51 Dec 10-16, 2023.xlsx', skiprows=[0,1,2])
-df = pd.read_excel(latest_file, skiprows=[0,1,2])
-print(df)
+# # df = pd.read_excel('c:/Users/cdelgad3.DZ/Downloads/General Services W51 Dec 10-16, 2023.xlsx', skiprows=[0,1,2])
+# df = pd.read_excel(latest_file, skiprows=[0,1,2])
+# print(df)
 
 # exit(0)
 
